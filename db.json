@@ -1,0 +1,24 @@
+{
+    "employees": [
+      {
+        "firstName": "first12",
+        "lastName": "last12",
+        "email": "first@last.com",
+        "phoneNumber": "+6588212321",
+        "gender": "male",
+        "dateOfBirth": "2000-08-23",
+        "joinedDate": "2025-04-06",
+        "id": 1
+      },
+      {
+        "firstName": "first1234",
+        "lastName": "last 1232",
+        "email": "first@last.com",
+        "phoneNumber": "+6588232122",
+        "gender": "male",
+        "dateOfBirth": "2025-04-01",
+        "joinedDate": "2025-04-30",
+        "id": 2
+      }
+    ]
+  }
