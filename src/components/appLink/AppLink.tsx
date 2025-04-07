@@ -2,7 +2,6 @@ import React from "react";
 import { Link, LinkProps } from "react-router";
 import {
   setNavigation,
-  setNextPath,
   useAppDispatch,
   useAppSelector,
 } from "../../store/store";

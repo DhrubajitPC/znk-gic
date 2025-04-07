@@ -84,7 +84,10 @@ export const EmployeeForm: React.FC<{
           name="dateOfBirth"
           help={errors.dateOfBirth?.message}
         >
-          <DatePicker format="YYYY-MM-DD" />
+          <DatePicker
+            format="YYYY-MM-DD"
+            disabledDate={(current) => current > dayjs()}
+          />
         </FormItem>
 
         <FormItem
@@ -93,7 +96,10 @@ export const EmployeeForm: React.FC<{
           name="joinedDate"
           help={errors.joinedDate?.message}
         >
-          <DatePicker format="YYYY-MM-DD" />
+          <DatePicker
+            format="YYYY-MM-DD"
+            disabledDate={(current) => current > dayjs()}
+          />
         </FormItem>
 
         <Form.Item>
