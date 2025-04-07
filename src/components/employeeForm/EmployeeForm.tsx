@@ -6,7 +6,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { FormItem } from "react-hook-form-antd";
 import { useLocation } from "react-router";
-import { Employee } from "../types/Employee";
+import { Employee } from "../../types/Employee";
 import { employeeFormSchema } from "./employeeFormSchema";
 
 export const EmployeeForm: React.FC<{
@@ -28,6 +28,8 @@ export const EmployeeForm: React.FC<{
     mode: "onChange",
   });
 
+  onDirtyChange?.(isDirty);
+
   const location = useLocation();
   const isEditRoute = location.pathname.includes("edit");
 
@@ -35,9 +37,6 @@ export const EmployeeForm: React.FC<{
     <>
       <Form
         layout="vertical"
-        onValuesChange={() => {
-          if (onDirtyChange && isDirty) onDirtyChange(true);
-        }}
         onFinish={handleSubmit((data) => {
           const transformedData = {
             ...data,

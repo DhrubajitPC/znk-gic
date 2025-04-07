@@ -2,7 +2,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { message, Button, Popconfirm, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { Link } from "react-router";
-import { Employee } from "../types/Employee";
+import { Employee } from "../../types/Employee";
 
 type EmployeeTableProps = {
   employees: Employee[];

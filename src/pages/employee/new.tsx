@@ -1,7 +1,7 @@
 import { Button, Typography } from "antd";
 import React from "react";
 import { Link, useNavigate } from "react-router";
-import { EmployeeForm } from "../../components/EmployeeForm";
+import { EmployeeForm } from "../../components/employeeForm/EmployeeForm";
 import { useCreateEmployeeMutation } from "../../features/employee/api/employeeApi";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 

@@ -1,5 +1,5 @@
 import { screen, render, fireEvent, act } from "@testing-library/react";
-import { EmployeeForm } from "./EmployeeForm";
+import { EmployeeForm } from "../EmployeeForm";
 import { test, expect } from "bun:test";
 import { mock } from "bun:test";
 

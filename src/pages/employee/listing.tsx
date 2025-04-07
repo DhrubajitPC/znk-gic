@@ -2,7 +2,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Button, Space, Typography } from "antd";
 import React from "react";
 import { Link } from "react-router";
-import { EmployeeTable } from "../../components/EmployeeTable";
+import { EmployeeTable } from "../../components/employeeTable/EmployeeTable";
 import {
   useGetEmployeesQuery,
   useDeleteEmployeeMutation,

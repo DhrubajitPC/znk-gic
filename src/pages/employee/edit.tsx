@@ -1,7 +1,7 @@
 import { Button, Modal, Typography } from "antd";
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
-import { EmployeeForm } from "../../components/EmployeeForm";
+import { EmployeeForm } from "../../components/employeeForm/EmployeeForm";
 import {
   useGetEmployeesQuery,
   useUpdateEmployeeMutation,
@@ -56,7 +56,7 @@ export const EditEmployee: React.FC = () => {
         <EmployeeForm
           employee={employee}
           onSubmit={handleSubmit}
-          onDirtyChange={() => {
+          onDirtyChange={(isDirty) => {
             console.log("isDirty", isDirty);
             setIsDirty(true);
           }}
