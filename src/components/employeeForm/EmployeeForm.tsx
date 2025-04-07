@@ -2,7 +2,7 @@ import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, DatePicker, Form, Input, Radio } from "antd";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FormItem } from "react-hook-form-antd";
 import { useLocation } from "react-router";
@@ -17,7 +17,8 @@ export const EmployeeForm: React.FC<{
   const {
     control,
     handleSubmit,
-    formState: { errors, isDirty },
+    reset,
+    formState: { errors, isDirty, isSubmitSuccessful },
   } = useForm({
     defaultValues: {
       ...employee,
@@ -28,7 +29,15 @@ export const EmployeeForm: React.FC<{
     mode: "onChange",
   });
 
-  onDirtyChange?.(isDirty);
+  useEffect(() => {
+    onDirtyChange?.(isDirty);
+  }, [isDirty, onDirtyChange]);
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset(undefined, { keepValues: true });
+    }
+  }, [isSubmitSuccessful, reset]);
 
   const location = useLocation();
   const isEditRoute = location.pathname.includes("edit");

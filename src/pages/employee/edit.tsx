@@ -17,7 +17,6 @@ export const EditEmployee: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
   const [showUnsavedChangesModal, setShowUnsavedChangesModal] = useState(false);
-  const [targetPath, setTargetPath] = useState("/");
 
   const employee = employeeList?.find((employee) => employee.id === employeeId);
 
@@ -43,7 +42,6 @@ export const EditEmployee: React.FC = () => {
           onClick={(e) => {
             if (isDirty) {
               e.preventDefault();
-              setTargetPath("/");
               setShowUnsavedChangesModal(true);
             }
           }}
@@ -57,8 +55,7 @@ export const EditEmployee: React.FC = () => {
           employee={employee}
           onSubmit={handleSubmit}
           onDirtyChange={(isDirty) => {
-            console.log("isDirty", isDirty);
-            setIsDirty(true);
+            setIsDirty(isDirty);
           }}
         />
       ) : null}
@@ -83,7 +80,7 @@ export const EditEmployee: React.FC = () => {
           cancelText="Cancel"
           onOk={() => {
             setShowUnsavedChangesModal(false);
-            navigate(targetPath);
+            navigate("/");
           }}
           onCancel={() => setShowUnsavedChangesModal(false)}
         >
