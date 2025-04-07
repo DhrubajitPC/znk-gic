@@ -6,7 +6,7 @@ import { EmployeeTable } from "../../components/EmployeeTable";
 import {
   useGetEmployeesQuery,
   useDeleteEmployeeMutation,
-} from "../../services/employeeApi";
+} from "../../features/employee/api/employeeApi";
 
 export const EmployeeListing: React.FC = () => {
   const {

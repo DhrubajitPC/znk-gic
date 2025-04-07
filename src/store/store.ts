@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { employeeApi } from "../services/employeeApi";
+import { employeeApi } from "../features/employee/api/employeeApi";
 
 export const store = configureStore({
   reducer: {
