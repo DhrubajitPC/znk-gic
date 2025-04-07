@@ -7,7 +7,7 @@ import { Employee } from "../types/Employee";
 type EmployeeTableProps = {
   employees: Employee[];
   loading: boolean;
-  onDelete: (id: number) => Promise<void>;
+  onDelete: (id: string) => Promise<void>;
 };
 
 export const EmployeeTable: React.FC<EmployeeTableProps> = ({
@@ -15,7 +15,7 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   loading,
   onDelete,
 }) => {
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     try {
       await onDelete(id);
       message.success("Employee deleted successfully");
@@ -74,7 +74,7 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
     {
       title: "Actions",
       key: "actions",
-      render: (_: any, record: Employee) => (
+      render: (_, record: Employee) => (
         <span>
           <Link to={`/employee/edit/${record.id}`}>
             <Button type="link" icon={<EditOutlined />}>

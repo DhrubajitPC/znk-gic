@@ -35,7 +35,7 @@ export const EmployeeListing: React.FC = () => {
         <EmployeeTable
           employees={employees}
           loading={loading}
-          onDelete={async (id: number) => {
+          onDelete={async (id: string) => {
             await deleteEmployee(id.toString());
           }}
         />

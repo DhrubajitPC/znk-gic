@@ -15,9 +15,9 @@ type EmployeeFormValues = {
 };
 
 export const EmployeeForm: React.FC<{
-  defaultValues?: Partial<EmployeeFormValues>;
+  employee?: Employee;
   onSubmit?: (data: Omit<Employee, "id">) => void;
-}> = ({ defaultValues = {}, onSubmit }) => {
+}> = ({ employee: employee, onSubmit }) => {
   const {
     control,
     handleSubmit,
@@ -30,9 +30,9 @@ export const EmployeeForm: React.FC<{
       email: "",
       phoneNumber: "",
       gender: "",
-      dateOfBirth: null,
-      joinedDate: null,
-      ...defaultValues,
+      ...employee,
+      dateOfBirth: employee?.dateOfBirth ? dayjs(employee.dateOfBirth) : null,
+      joinedDate: employee?.joinedDate ? dayjs(employee.joinedDate) : null,
     },
   });
 

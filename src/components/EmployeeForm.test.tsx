@@ -59,7 +59,7 @@ test.only("Submits form with valid data", async () => {
 
   render(
     <EmployeeForm
-      defaultValues={{ firstName: "John", lastName: "Doe" }}
+      employee={{ firstName: "John", lastName: "Doe" }}
       onSubmit={mockSubmit}
     />
   );
