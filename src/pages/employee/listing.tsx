@@ -1,14 +1,25 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Layout, Space, Typography } from "antd";
+import { Button, Space, Typography } from "antd";
 import React from "react";
 import { Link } from "react-router";
-import data from "../../../db.json";
 import { EmployeeTable } from "../../components/EmployeeTable";
-import { Employee } from "../../types/Employee";
-
-const employees: Employee[] = data.employees;
+import {
+  useGetEmployeesQuery,
+  useDeleteEmployeeMutation,
+} from "../../services/employeeApi";
 
 export const EmployeeListing: React.FC = () => {
+  const {
+    data: employees = [],
+    isLoading: loading,
+    error,
+  } = useGetEmployeesQuery();
+  const [deleteEmployee] = useDeleteEmployeeMutation();
+
+  if (error) {
+    console.error("Error fetching employees:", error);
+  }
+
   return (
     <>
       <Typography.Title level={2}>Employees' List</Typography.Title>
@@ -23,8 +34,10 @@ export const EmployeeListing: React.FC = () => {
 
         <EmployeeTable
           employees={employees}
-          loading={false}
-          onDelete={() => Promise.resolve()}
+          loading={loading}
+          onDelete={async (id: number) => {
+            await deleteEmployee(id.toString());
+          }}
         />
       </Space>
     </>
