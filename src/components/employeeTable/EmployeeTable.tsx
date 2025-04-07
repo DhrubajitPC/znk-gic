@@ -3,6 +3,7 @@ import { message, Button, Popconfirm, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { Link } from "react-router";
 import { Employee } from "../../types/Employee";
+import { AppLink } from "../appLink/AppLink";
 
 type EmployeeTableProps = {
   employees: Employee[];
@@ -76,11 +77,11 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
       key: "actions",
       render: (_, record: Employee) => (
         <span>
-          <Link to={`/employee/edit/${record.id}`}>
+          <AppLink to={`/employee/edit/${record.id}`}>
             <Button type="link" icon={<EditOutlined />}>
               Edit
             </Button>
-          </Link>
+          </AppLink>
           <Popconfirm
             title="Are you sure you want to delete this employee?"
             onConfirm={() => handleDelete(record.id)}

@@ -1,20 +1,18 @@
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, Modal, Typography } from "antd";
 import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { AppLink } from "../../components/appLink/AppLink";
 import { EmployeeForm } from "../../components/employeeForm/EmployeeForm";
 import {
   useGetEmployeesQuery,
   useUpdateEmployeeMutation,
 } from "../../features/employee/api/employeeApi";
-import { ArrowLeftOutlined } from "@ant-design/icons";
 import {
-  setMessage,
+  setPreventNavigation,
   setPreventNavigationWithMessage,
   useAppDispatch,
-  useAppSelector,
 } from "../../store/store";
-import { setPreventNavigation } from "../../store/store";
-import { AppLink } from "../../components/appLink/AppLink";
 
 export const EditEmployee: React.FC = () => {
   const { employeeId } = useParams<{ employeeId: string }>();
