@@ -4,7 +4,7 @@ export type Employee = {
   lastName: string;
   email: string;
   phoneNumber: string;
-  gender: string;
+  gender: "male" | "female";
   dateOfBirth: string;
   joinedDate: string;
 };

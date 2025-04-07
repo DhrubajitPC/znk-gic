@@ -1,8 +1,9 @@
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import React from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { EmployeeForm } from "../../components/EmployeeForm";
 import { useCreateEmployeeMutation } from "../../features/employee/api/employeeApi";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 export const NewEmployee: React.FC = () => {
   const navigate = useNavigate();
@@ -20,6 +21,15 @@ export const NewEmployee: React.FC = () => {
 
   return (
     <>
+      <Link to="/">
+        <Button
+          style={{ marginTop: "25px" }}
+          type="link"
+          icon={<ArrowLeftOutlined />}
+        >
+          Back to Employee List
+        </Button>
+      </Link>
       <Typography.Title level={2}>
         Please enter new employee details:
       </Typography.Title>
