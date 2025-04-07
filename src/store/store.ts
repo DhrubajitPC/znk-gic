@@ -1,12 +1,38 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { employeeApi } from "../features/employee/api/employeeApi";
-import { set } from "react-hook-form";
+
+// Slice to manage error state
+const errorSlice = createSlice({
+  name: "error",
+  initialState: {
+    showError: false,
+    errorMessage: "Oops! Something went wrong. Please try again",
+  },
+  reducers: {
+    setError: (
+      state,
+      action: PayloadAction<{ showError: boolean; errorMessage: string }>
+    ) => {
+      state.showError = action.payload.showError;
+      state.errorMessage = action.payload.errorMessage;
+    },
+    clearError: (state) => {
+      state.showError = false;
+      state.errorMessage = "";
+    },
+  },
+});
 
 // Slice to manage navigation prevention state
 const navigationSlice = createSlice({
   name: "navigation",
-  initialState: { showNavigationModal: false, preventNavigation: false, message: "", nextPath: "" },
+  initialState: {
+    showNavigationModal: false,
+    preventNavigation: false,
+    message: "",
+    nextPath: "",
+  },
   reducers: {
     setPreventNavigation: (state, action: PayloadAction<boolean>) => {
       state.preventNavigation = action.payload;
@@ -38,16 +64,26 @@ const navigationSlice = createSlice({
     ) => {
       state.preventNavigation = action.payload.preventNavigation;
       state.message = action.payload.message;
-      state.nextPath = action.payload.nextPath; 
+      state.nextPath = action.payload.nextPath;
       state.showNavigationModal = action.payload.showNavigationModal;
-    }
+    },
   },
 });
 
-export const { setShowNavigationModal, setPreventNavigation, setMessage, setNextPath, setPreventNavigationWithMessage, setNavigation } = navigationSlice.actions;
+export const {
+  setShowNavigationModal,
+  setPreventNavigation,
+  setMessage,
+  setNextPath,
+  setPreventNavigationWithMessage,
+  setNavigation,
+} = navigationSlice.actions;
+
+export const { setError, clearError } = errorSlice.actions;
 
 export const store = configureStore({
   reducer: {
+    error: errorSlice.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
     navigation: navigationSlice.reducer,
   },

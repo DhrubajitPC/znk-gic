@@ -7,6 +7,7 @@ import {
   useDeleteEmployeeMutation,
   useGetEmployeesQuery,
 } from "../../features/employee/api/employeeApi";
+import { setError, useAppDispatch } from "../../store/store";
 
 export const EmployeeListing: React.FC = () => {
   const {
@@ -16,8 +17,11 @@ export const EmployeeListing: React.FC = () => {
   } = useGetEmployeesQuery();
   const [deleteEmployee] = useDeleteEmployeeMutation();
 
+  const dispatch = useAppDispatch();
   if (error) {
-    console.error("Error fetching employees:", error);
+    dispatch(
+      setError({ showError: true, errorMessage: "Error fetching employees" })
+    );
   }
 
   return (
@@ -36,7 +40,16 @@ export const EmployeeListing: React.FC = () => {
           employees={employees}
           loading={loading}
           onDelete={async (id: string) => {
-            await deleteEmployee(id.toString());
+            try {
+              await deleteEmployee(id.toString()).unwrap();
+            } catch (e) {
+              dispatch(
+                setError({
+                  showError: true,
+                  errorMessage: "Error deleting employee",
+                })
+              );
+            }
           }}
         />
       </Space>

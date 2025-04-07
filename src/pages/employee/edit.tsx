@@ -9,6 +9,7 @@ import {
   useUpdateEmployeeMutation,
 } from "../../features/employee/api/employeeApi";
 import {
+  setError,
   setPreventNavigation,
   setPreventNavigationWithMessage,
   useAppDispatch,
@@ -32,7 +33,12 @@ export const EditEmployee: React.FC = () => {
       setShowModal(true);
       dispatch(setPreventNavigation(false)); // Reset navigation prevention
     } catch (error) {
-      console.error("Failed to update employee:", error);
+      dispatch(
+        setError({
+          showError: true,
+          errorMessage: "Failed to update employee",
+        })
+      );
     }
   };
 

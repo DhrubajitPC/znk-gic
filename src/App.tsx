@@ -1,8 +1,9 @@
-import { Modal } from "antd";
+import { Modal, Typography } from "antd";
 import { Route, Routes, useNavigate } from "react-router";
 import { RootLayout } from "./layout/RootLayout";
 import { routes } from "./routes";
 import {
+  clearError,
   setNavigation,
   setShowNavigationModal,
   useAppDispatch,
@@ -10,9 +11,13 @@ import {
 } from "./store/store";
 
 export const App = () => {
-  const { showNavigationModal, message, nextPath } = useAppSelector(
-    (state) => state.navigation
-  );
+  const { showNavigationModal, message, nextPath, showError, errorMessage } =
+    useAppSelector((state) => {
+      return {
+        ...state.navigation,
+        ...state.error,
+      };
+    });
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -44,6 +49,16 @@ export const App = () => {
         onCancel={() => dispatch(setShowNavigationModal(false))}
       >
         {message}
+      </Modal>
+      <Modal
+        open={showError}
+        title={<Typography.Title level={3}>Uh Oh!</Typography.Title>}
+        okText="OK"
+        onOk={() => {
+          dispatch(clearError());
+        }}
+      >
+        {errorMessage}
       </Modal>
     </RootLayout>
   );
