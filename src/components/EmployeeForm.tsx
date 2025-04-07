@@ -2,6 +2,7 @@ import { Button, DatePicker, Form, Input, Radio } from "antd";
 import dayjs from "dayjs";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Employee } from "../types/Employee";
 
 type EmployeeFormValues = {
   firstName: string;
@@ -15,7 +16,7 @@ type EmployeeFormValues = {
 
 export const EmployeeForm: React.FC<{
   defaultValues?: Partial<EmployeeFormValues>;
-  onSubmit?: (data: EmployeeFormValues) => void;
+  onSubmit?: (data: Omit<Employee, "id">) => void;
 }> = ({ defaultValues = {}, onSubmit }) => {
   const {
     control,
@@ -42,7 +43,12 @@ export const EmployeeForm: React.FC<{
       layout="vertical"
       onFinish={handleSubmit((data: EmployeeFormValues) => {
         console.log("Form Data:", data);
-        onSubmit?.(data);
+        const transformedData = {
+          ...data,
+          dateOfBirth: data.dateOfBirth?.format("YYYY-MM-DD") || "",
+          joinedDate: data.joinedDate?.format("YYYY-MM-DD") || "",
+        };
+        onSubmit?.(transformedData);
       })}
       data-testid="employee-form"
     >
