@@ -1,10 +1,55 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { employeeApi } from "../features/employee/api/employeeApi";
+import { set } from "react-hook-form";
+
+// Slice to manage navigation prevention state
+const navigationSlice = createSlice({
+  name: "navigation",
+  initialState: { showNavigationModal: false, preventNavigation: false, message: "", nextPath: "" },
+  reducers: {
+    setPreventNavigation: (state, action: PayloadAction<boolean>) => {
+      state.preventNavigation = action.payload;
+    },
+    setMessage: (state, action: PayloadAction<string>) => {
+      state.message = action.payload;
+    },
+    setNextPath: (state, action: PayloadAction<string>) => {
+      state.nextPath = action.payload;
+    },
+    setPreventNavigationWithMessage: (
+      state,
+      action: PayloadAction<{ preventNavigation: boolean; message: string }>
+    ) => {
+      state.preventNavigation = action.payload.preventNavigation;
+      state.message = action.payload.message;
+    },
+    setShowNavigationModal: (state, action: PayloadAction<boolean>) => {
+      state.showNavigationModal = action.payload;
+    },
+    setNavigation: (
+      state,
+      action: PayloadAction<{
+        preventNavigation: boolean;
+        message: string;
+        nextPath: string;
+        showNavigationModal: boolean;
+      }>
+    ) => {
+      state.preventNavigation = action.payload.preventNavigation;
+      state.message = action.payload.message;
+      state.nextPath = action.payload.nextPath; 
+      state.showNavigationModal = action.payload.showNavigationModal;
+    }
+  },
+});
+
+export const { setShowNavigationModal, setPreventNavigation, setMessage, setNextPath, setPreventNavigationWithMessage, setNavigation } = navigationSlice.actions;
 
 export const store = configureStore({
   reducer: {
     [employeeApi.reducerPath]: employeeApi.reducer,
+    navigation: navigationSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(employeeApi.middleware),

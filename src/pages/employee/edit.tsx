@@ -7,16 +7,23 @@ import {
   useUpdateEmployeeMutation,
 } from "../../features/employee/api/employeeApi";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import {
+  setMessage,
+  setPreventNavigationWithMessage,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store/store";
+import { setPreventNavigation } from "../../store/store";
+import { AppLink } from "../../components/appLink/AppLink";
 
 export const EditEmployee: React.FC = () => {
   const { employeeId } = useParams<{ employeeId: string }>();
   const { data: employeeList, isLoading } = useGetEmployeesQuery();
   const [updateEmployee] = useUpdateEmployeeMutation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [isSaved, setIsSaved] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [isDirty, setIsDirty] = useState(false);
-  const [showUnsavedChangesModal, setShowUnsavedChangesModal] = useState(false);
 
   const employee = employeeList?.find((employee) => employee.id === employeeId);
 
@@ -25,6 +32,7 @@ export const EditEmployee: React.FC = () => {
       await updateEmployee({ id: employeeId || "", ...values }).unwrap();
       setIsSaved(true);
       setShowModal(true);
+      dispatch(setPreventNavigation(false)); // Reset navigation prevention
     } catch (error) {
       console.error("Failed to update employee:", error);
     }
@@ -34,28 +42,37 @@ export const EditEmployee: React.FC = () => {
 
   return (
     <>
-      <Link to="/">
+      <AppLink to="/">
         <Button
           style={{ marginTop: "25px" }}
           type="link"
           icon={<ArrowLeftOutlined />}
-          onClick={(e) => {
-            if (isDirty) {
-              e.preventDefault();
-              setShowUnsavedChangesModal(true);
-            }
-          }}
         >
           Back to Employee List
         </Button>
-      </Link>
+      </AppLink>
       <Typography.Title level={2}>Update employee details:</Typography.Title>
       {employee ? (
         <EmployeeForm
           employee={employee}
           onSubmit={handleSubmit}
           onDirtyChange={(isDirty) => {
-            setIsDirty(isDirty);
+            if (isDirty) {
+              dispatch(
+                setPreventNavigationWithMessage({
+                  preventNavigation: true,
+                  message:
+                    "Form has been modified. You will lose your unsaved changes. Are you sure you want to close this form?",
+                })
+              );
+            } else {
+              dispatch(
+                setPreventNavigationWithMessage({
+                  preventNavigation: false,
+                  message: "",
+                })
+              );
+            }
           }}
         />
       ) : null}
@@ -69,23 +86,6 @@ export const EditEmployee: React.FC = () => {
           onCancel={() => setShowModal(false)}
         >
           The Employee details have been saved
-        </Modal>
-      )}
-      {showUnsavedChangesModal && (
-        <Modal
-          open={showUnsavedChangesModal}
-          maskClosable={true}
-          title="Unsaved Changes"
-          okText="OK"
-          cancelText="Cancel"
-          onOk={() => {
-            setShowUnsavedChangesModal(false);
-            navigate("/");
-          }}
-          onCancel={() => setShowUnsavedChangesModal(false)}
-        >
-          Form has been modified. You will lose your unsaved changes. Are you
-          sure you want to close this form?
         </Modal>
       )}
     </>
