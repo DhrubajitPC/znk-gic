@@ -1,67 +1,60 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
+import { describe, expect, test } from "vitest";
+import { renderWithProviders } from "../../test-utils";
 import { AppLink } from "./AppLink";
-import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
-import { test, expect } from "bun:test";
-import { setNavigation } from "../../store/store";
 
-const mockStore = configureStore([]);
-
-const mockDispatch = Bun.mock.fn();
-
-beforeEach(() => {
-  mockDispatch.mockClear();
-});
-
-test("Renders AppLink with children", () => {
-  const store = mockStore({
-    navigation: {
-      preventNavigation: false,
-      message: "",
-      nextPath: "",
-      showNavigationModal: false,
-    },
+describe("AppLink", () => {
+  test("renders AppLink with children", () => {
+    renderWithProviders(<AppLink to="/test">Test Link</AppLink>);
+    expect(screen.getByText(/Test Link/i)).toBeInTheDocument();
   });
 
-  store.dispatch = mockDispatch;
+  test("prevents navigation and dispatches action when preventNavigation is true", () => {
+    const { store } = renderWithProviders(
+      <AppLink to="/test">Test Link</AppLink>,
+      {
+        preloadedState: {
+          navigation: {
+            preventNavigation: true,
+            message: "Navigation is prevented",
+            nextPath: "",
+            showNavigationModal: false,
+          },
+        },
+      }
+    );
 
-  render(
-    <Provider store={store}>
-      <AppLink to="/test">Test Link</AppLink>
-    </Provider>
-  );
+    const link = screen.getByText(/Test Link/i);
+    fireEvent.click(link);
 
-  expect(screen.getByText(/Test Link/i)).toBeTruthy();
-});
-
-test("Prevents navigation and dispatches action when preventNavigation is true", () => {
-  const store = mockStore({
-    navigation: {
-      preventNavigation: true,
-      message: "Navigation is prevented",
-      nextPath: "",
-      showNavigationModal: false,
-    },
-  });
-
-  store.dispatch = mockDispatch;
-
-  render(
-    <Provider store={store}>
-      <AppLink to="/test">Test Link</AppLink>
-    </Provider>
-  );
-
-  const link = screen.getByText(/Test Link/i);
-  fireEvent.click(link);
-
-  expect(mockDispatch.mock.calls[0][0]).toEqual(
-    setNavigation({
+    const actions = store.getState().navigation;
+    expect(actions).toEqual({
       preventNavigation: true,
       message: "Navigation is prevented",
       nextPath: "/test",
       showNavigationModal: true,
-    })
-  );
+    });
+  });
+
+  test("allows navigation when preventNavigation is false", () => {
+    const { store } = renderWithProviders(
+      <AppLink to="/test">Test Link</AppLink>,
+      {
+        preloadedState: {
+          navigation: {
+            preventNavigation: false,
+            message: "",
+            nextPath: "",
+            showNavigationModal: false,
+          },
+        },
+      }
+    );
+
+    const link = screen.getByText(/Test Link/i);
+    fireEvent.click(link);
+
+    const actions = store.getState().navigation;
+    expect(actions.showNavigationModal).toBe(false);
+  });
 });
