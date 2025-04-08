@@ -1,54 +1,84 @@
-# React + TypeScript + Vite
+# Employee crud take home assessment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Introduction
 
-Currently, two official plugins are available:
+This work is for a take home assessment. The original question can be found at "Frontend Test v2.4.1.pdf"
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Running the app
 
-## Expanding the ESLint configuration
+### Using docker
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+If you would like to use docker, you can run
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+docker-compose up
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Without docker
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This project is set up using [Bun](https://bun.sh/). Install it on your machine.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+curl -fsSL https://bun.sh/install | bash
 ```
+
+Install the required packages
+
+```bash
+bun install
+```
+
+Next we need to start the mock server. This project is using the [json-server](https://github.com/typicode/json-server) library to set up crud endpoints.
+
+```bash
+bun run mock-api
+```
+
+Time to load and start our application
+
+```bash
+bun run dev
+```
+
+## Testing
+
+Once the application is up and running, you can run unit tests by running
+
+```bash
+bun run test:unit
+```
+
+and e2e tests by running
+
+```bash
+bun run test:e2e
+```
+
+## Deploying
+
+Since this app is already dockerized, we can just deploy the docker image on any server of our choice. We can also set up CI/CD and app versioning easily by relying on docker.
+
+## Tech stack
+
+This project is set up using vite with typescript. I am using the technologies suggested by the requirements.
+For UI, I am using ant design. For state management I am using redux-toolkit. For api calls I am using RTK query. For form managment, I am using react-hook-form and I am supporting it with zod for simpler validation. For navigation, I am using react-router.
+
+## Design choices
+
+### Handling errors
+
+In my App.tsx file I listen for any errors in my redux state before showing a modal to the user to inform them of any errors. This way I do not have to set up a separate error component to render on individual parts of my application and keep things simple. Any place that an error can happen, I dispatch an action to redux to update this error state.
+
+### Root layout
+
+I set up a root layout that can persist across pages. This is based on the assumption that all our pages will have the same default layout.
+
+### Form validation
+
+I use zod to handle form validation. By using it, I can have an isolated schema with all the validation rules making it easier to manage any form validation.
+
+### Handling navigation block when an employee edit form has been updated
+
+I created a wrapper around the <Link> component provided by react-router. I use a similar pattern to how I handle errors. I use the redux library as an event bus. Any part of my application can choose to dispatch an action to update my redux navigation state. In my App.tsx, I listen for any changes to this state and display a modal to prevent user navigation if needed.
+
+This approach allows me to easily use this navigation prevention feature outside the edit-form page.
