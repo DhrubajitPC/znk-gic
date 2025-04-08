@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "bunx --bun vite preview",
     "mock-api": "json-server --watch db.json --port 3000",
-    "test": "vitest --environment happy-dom"
+    "test:unit": "vitest --environment happy-dom"
   },
   "dependencies": {
     "@ant-design/icons": "5.x",
