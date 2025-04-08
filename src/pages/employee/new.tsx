@@ -1,9 +1,9 @@
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, Typography } from "antd";
 import React from "react";
 import { Link, useNavigate } from "react-router";
 import { EmployeeForm } from "../../components/employeeForm/EmployeeForm";
 import { useCreateEmployeeMutation } from "../../features/employee/api/employeeApi";
-import { ArrowLeftOutlined } from "@ant-design/icons";
 
 export const NewEmployee: React.FC = () => {
   const navigate = useNavigate();
