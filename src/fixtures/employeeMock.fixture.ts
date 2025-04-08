@@ -1,0 +1,22 @@
+export const employeeMock = [  
+    {
+      "firstName": "first342",
+      "lastName": "last12221",
+      "email": "first@last.com",
+      "phoneNumber": "88212321",
+      "gender": "male",
+      "dateOfBirth": "2000-08-23",
+      "joinedDate": "2025-04-06",
+      "id": "1"
+    },
+    {
+      "id": "7588",
+      "firstName": "someone",
+      "lastName": "namese",
+      "email": "some@ss.com",
+      "phoneNumber": "88291232",
+      "gender": "female",
+      "dateOfBirth": "2025-04-01",
+      "joinedDate": "2025-04-30"
+    }
+  ]

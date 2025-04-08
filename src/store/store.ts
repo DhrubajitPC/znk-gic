@@ -1,4 +1,4 @@
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { combineReducers, configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { employeeApi } from "../features/employee/api/employeeApi";
 
@@ -81,18 +81,26 @@ export const {
 
 export const { setError, clearError } = errorSlice.actions;
 
-export const store = configureStore({
-  reducer: {
+const rootReducer = combineReducers({
     error: errorSlice.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
     navigation: navigationSlice.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(employeeApi.middleware),
-});
+    })
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const setupStore = (preloadedState?: Partial<RootState>) => {
+  return configureStore({
+  reducer: rootReducer, 
+   middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(employeeApi.middleware),
+    preloadedState
+  });
+}
+
+export const store = setupStore();
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
