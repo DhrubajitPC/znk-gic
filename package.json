@@ -9,7 +9,11 @@
     "lint": "eslint .",
     "preview": "bunx --bun vite preview",
     "mock-api": "json-server --watch db.json --port 3000",
-    "test:unit": "vitest --environment happy-dom"
+    "test:unit": "vitest --environment happy-dom",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
     "@ant-design/icons": "5.x",

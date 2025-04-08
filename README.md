@@ -6,16 +6,6 @@ This work is for a take home assessment. The original question can be found at "
 
 ## Running the app
 
-### Using docker
-
-If you would like to use docker, you can run
-
-```bash
-docker-compose up
-```
-
-### Without docker
-
 This project is set up using [Bun](https://bun.sh/). Install it on your machine.
 
 ```bash
