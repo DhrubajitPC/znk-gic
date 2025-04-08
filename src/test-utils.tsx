@@ -4,6 +4,7 @@ import type { RenderOptions } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { RootState } from "./store/store";
 import { AppStore, setupStore } from "./store/store";
+import { BrowserRouter } from "react-router";
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -22,7 +23,11 @@ export function renderWithProviders(
   }: ExtendedRenderOptions = {}
 ) {
   function Wrapper({ children }: PropsWithChildren<{}>) {
-    return <Provider store={store}>{children}</Provider>;
+    return (
+      <Provider store={store}>
+        <BrowserRouter>{children}</BrowserRouter>
+      </Provider>
+    );
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }

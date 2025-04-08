@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
 import { screen, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
-import { BrowserRouter } from "react-router";
 import { beforeEach, describe, expect, test } from "vitest";
 import { App } from "./App";
 import { employeeMock } from "./fixtures/employeeMock.fixture";
@@ -11,12 +10,7 @@ import { renderWithProviders } from "./test-utils";
 
 const renderApp = (preloadedState = {}) => {
   const store = setupStore(preloadedState);
-  return renderWithProviders(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>,
-    { store }
-  );
+  return renderWithProviders(<App />, { store });
 };
 
 describe("App", () => {
