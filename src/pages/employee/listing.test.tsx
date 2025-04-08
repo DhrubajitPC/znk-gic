@@ -1,11 +1,11 @@
-import { render, screen } from "@testing-library/react";
-import { EmployeeListing } from "./listing";
-import { test, expect, beforeEach, describe } from "vitest";
+import { screen } from "@testing-library/react";
+import { http, HttpResponse } from "msw";
+import { beforeEach, describe, expect, test } from "vitest";
+import { employeeMock } from "../../fixtures/employeeMock.fixture";
 import { setupStore } from "../../store/store";
 import { server } from "../../test-setup";
-import { http, HttpResponse } from "msw";
-import { employeeMock } from "../../fixtures/employeeMock.fixture";
 import { renderWithProviders } from "../../test-utils";
+import { EmployeeListing } from "./listing";
 
 const store = setupStore();
 
