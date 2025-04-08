@@ -22,8 +22,8 @@ export const EmployeeForm: React.FC<{
   } = useForm({
     defaultValues: {
       ...employee,
-      dateOfBirth: dayjs(employee?.dateOfBirth),
-      joinedDate: dayjs(employee?.joinedDate),
+      dateOfBirth: employee ? dayjs(employee.dateOfBirth) : undefined,
+      joinedDate: employee ? dayjs(employee.joinedDate) : undefined,
     },
     resolver: zodResolver(employeeFormSchema),
     mode: "onChange",
@@ -46,6 +46,7 @@ export const EmployeeForm: React.FC<{
     <>
       <Form
         layout="vertical"
+        data-testid="employee-form"
         onFinish={handleSubmit((data) => {
           const transformedData = {
             ...data,

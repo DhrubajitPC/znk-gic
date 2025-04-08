@@ -48,14 +48,14 @@ describe("NewEmployee", () => {
     const joinedDateInput = screen.getByLabelText(/joined date/i);
     const submitButton = screen.getByRole("button", { name: /submit/i });
 
-    await fireEvent.change(firstNameInput, newEmployee.firstName);
-    await fireEvent.change(lastNameInput, newEmployee.lastName);
-    await fireEvent.change(dateOfBirthInput, newEmployee.dateOfBirth);
-    await fireEvent.click(femaleGenderRadio);
-    await fireEvent.change(emailInput, newEmployee.email);
-    await fireEvent.change(phoneNumberInput, newEmployee.phoneNumber);
-    await fireEvent.change(joinedDateInput, newEmployee.joinedDate);
-    await fireEvent.click(submitButton);
+    fireEvent.change(firstNameInput, newEmployee.firstName);
+    fireEvent.change(lastNameInput, newEmployee.lastName);
+    fireEvent.change(dateOfBirthInput, newEmployee.dateOfBirth);
+    fireEvent.click(femaleGenderRadio);
+    fireEvent.change(emailInput, newEmployee.email);
+    fireEvent.change(phoneNumberInput, newEmployee.phoneNumber);
+    fireEvent.change(joinedDateInput, newEmployee.joinedDate);
+    fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(location.pathname).toBe("/");

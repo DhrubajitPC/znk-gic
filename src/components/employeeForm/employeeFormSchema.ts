@@ -26,11 +26,17 @@ export const employeeFormSchema = z
     }),
     dateOfBirth: z
       .custom<dayjs.Dayjs>()
+      .refine(Boolean, {
+        message: "Date of Birth is required",
+      })
       .refine((val) => val && val.isBefore(dayjs()), {
         message: "Invalid Date of Birth",
       }),
     joinedDate: z
       .custom<dayjs.Dayjs>()
+      .refine(Boolean, {
+        message: "Joined Date is required",
+      })
       .refine((val) => val && val.isBefore(dayjs()), {
         message: "Invalid Joined Date",
       }),
