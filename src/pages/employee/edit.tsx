@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, Modal, Typography } from "antd";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { AppLink } from "../../components/appLink/AppLink";
 import { EmployeeForm } from "../../components/employeeForm/EmployeeForm";
@@ -9,6 +9,7 @@ import {
   useUpdateEmployeeMutation,
 } from "../../features/employee/api/employeeApi";
 import {
+  resetNavigation,
   setError,
   setPreventNavigation,
   setPreventNavigationWithMessage,
@@ -25,6 +26,20 @@ export const EditEmployee: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const employee = employeeList?.find((employee) => employee.id === employeeId);
+
+  const handleDirtyChange = useCallback((isDirty: boolean) => {
+    if (isDirty) {
+      dispatch(
+        setPreventNavigationWithMessage({
+          preventNavigation: true,
+          message:
+            "Form has been modified. You will lose your unsaved changes. Are you sure you want to close this form?",
+        })
+      );
+    } else {
+      dispatch(resetNavigation());
+    }
+  }, []);
 
   const handleSubmit = async (values: any) => {
     try {
@@ -60,24 +75,7 @@ export const EditEmployee: React.FC = () => {
         <EmployeeForm
           employee={employee}
           onSubmit={handleSubmit}
-          onDirtyChange={(isDirty) => {
-            if (isDirty) {
-              dispatch(
-                setPreventNavigationWithMessage({
-                  preventNavigation: true,
-                  message:
-                    "Form has been modified. You will lose your unsaved changes. Are you sure you want to close this form?",
-                })
-              );
-            } else {
-              dispatch(
-                setPreventNavigationWithMessage({
-                  preventNavigation: false,
-                  message: "",
-                })
-              );
-            }
-          }}
+          onDirtyChange={handleDirtyChange}
         />
       ) : null}
       {isSaved && (

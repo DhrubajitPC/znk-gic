@@ -4,6 +4,7 @@ import { RootLayout } from "./layout/RootLayout";
 import { routes } from "./routes";
 import {
   clearError,
+  resetNavigation,
   setNavigation,
   setShowNavigationModal,
   useAppDispatch,
@@ -30,20 +31,14 @@ export const App = () => {
         ))}
       </Routes>
       <Modal
+        data-testid="navigation-modal"
         open={showNavigationModal}
         title="Unsaved Changes"
         okText="OK"
         cancelText="Cancel"
         onOk={() => {
           const path = nextPath;
-          dispatch(
-            setNavigation({
-              preventNavigation: false,
-              message: "",
-              nextPath: "",
-              showNavigationModal: false,
-            })
-          );
+          dispatch(resetNavigation());
           navigate(path);
         }}
         onCancel={() => dispatch(setShowNavigationModal(false))}

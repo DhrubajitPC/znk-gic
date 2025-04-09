@@ -38,7 +38,7 @@ Once the application is up and running, you can run unit tests by running
 bun run test:unit
 ```
 
-and e2e tests by running
+and e2e tests by running. Take note that the mock-api server must be running in the background for the e2e tests to pass.
 
 ```bash
 bun run test:e2e

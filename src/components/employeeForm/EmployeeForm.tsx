@@ -57,23 +57,23 @@ export const EmployeeForm: React.FC<{
         })}
       >
         <FormItem label="First Name" control={control} name="firstName">
-          <Input />
+          <Input data-testid="firstName" />
         </FormItem>
 
         <FormItem label="Last Name" control={control} name="lastName">
-          <Input />
+          <Input data-testid="lastName" />
         </FormItem>
 
         <FormItem label="Email" control={control} name="email">
-          <Input />
+          <Input data-testid="email" />
         </FormItem>
 
         <FormItem label="Phone Number" control={control} name="phoneNumber">
-          <Input />
+          <Input data-testid="phoneNumber" />
         </FormItem>
 
         <FormItem label="Gender" control={control} name="gender">
-          <Radio.Group buttonStyle="solid">
+          <Radio.Group buttonStyle="solid" data-testid="gender">
             <Radio.Button value="male">Male</Radio.Button>
             <Radio.Button value="female">Female</Radio.Button>
           </Radio.Group>
@@ -84,6 +84,7 @@ export const EmployeeForm: React.FC<{
           control={control}
           name="dateOfBirth"
           help={errors.dateOfBirth?.message}
+          dasta-testid="dateOfBirth"
         >
           <DatePicker
             format="YYYY-MM-DD"
@@ -92,6 +93,7 @@ export const EmployeeForm: React.FC<{
         </FormItem>
 
         <FormItem
+          data-testid="joinedDate"
           label="Joined Date"
           control={control}
           name="joinedDate"
