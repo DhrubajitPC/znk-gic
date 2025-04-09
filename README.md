@@ -72,3 +72,7 @@ I use zod to handle form validation. By using it, I can have an isolated schema 
 I created a wrapper around the <Link> component provided by react-router. I use a similar pattern to how I handle errors. I use the redux library as an event bus. Any part of my application can choose to dispatch an action to update my redux navigation state. In my App.tsx, I listen for any changes to this state and display a modal to prevent user navigation if needed.
 
 This approach allows me to easily use this navigation prevention feature outside the edit-form page.
+
+### E2E tests
+
+I am using playwright for my e2e test. For this small application, I decided to run the tests in serial mode to keep the tests small and fast.
