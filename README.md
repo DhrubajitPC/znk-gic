@@ -44,10 +44,6 @@ and e2e tests by running. Take note that the mock-api server must be running in 
 bun run test:e2e
 ```
 
-## Deploying
-
-Since this app is already dockerized, we can just deploy the docker image on any server of our choice. We can also set up CI/CD and app versioning easily by relying on docker.
-
 ## Tech stack
 
 This project is set up using vite with typescript. I am using the technologies suggested by the requirements.
